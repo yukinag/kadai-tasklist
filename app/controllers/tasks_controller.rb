@@ -1,8 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @task = Task.all
+  def index    
+    @tasks = Task.all.page(params[:page]).per(3)
   end
 
   def show
@@ -39,11 +38,11 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
+    
 
     flash[:success] = 'タスク は正常に削除されました'
     redirect_to tasks_url
   end
-end
 
 
   private
@@ -55,3 +54,4 @@ end
   def task_params
     params.require(:task).permit(:content, :status)
   end
+end
